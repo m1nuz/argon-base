@@ -24,23 +24,20 @@
 #include "base/math_ext.h"
 
 // Axis-Aligned Bounding Box
-typedef struct AxisAlignedBoundingBox
-{
+typedef struct AxisAlignedBoundingBox {
     float3 min;
     float3 max;
 } AABB;
 
 // Oriented Bounding Box
-typedef struct OrientedBoundingBox
-{
+typedef struct OrientedBoundingBox {
     float3 position;
     float3 size;
     float3 axis[3];
 } OBB;
 
 // Bounding Sphere
-typedef struct BoundingSphere
-{
+typedef struct BoundingSphere {
     float3 position;
     float  radius;
 } BSPHR;

@@ -332,8 +332,8 @@ intersect_obb(const OBB *obb0, const OBB *obb1) {
     float3 b = {0};
     float3 Pa = {0};
     float3 Pb = {0};
-    matrix3 A = ZERO_MATRIX3;
-    matrix3 B = ZERO_MATRIX3;
+    matrix3 A = {ZERO_MATRIX3};
+    matrix3 B = {ZERO_MATRIX3};
 
     copy_vector3(a, obb0->size);
     copy_vector3(b, obb1->size);
@@ -350,8 +350,8 @@ intersect_obb(const OBB *obb0, const OBB *obb1) {
     float3 T = {0};
     right_product_matrix3_vector3(T, A, v);
 
-    matrix3 R = ZERO_MATRIX3;
-    matrix3 BT = ZERO_MATRIX3;
+    matrix3 R = {ZERO_MATRIX3};
+    matrix3 BT = {ZERO_MATRIX3};
     transpose_matrix3(BT, B);
     product_matrix3(R, A, BT);
 

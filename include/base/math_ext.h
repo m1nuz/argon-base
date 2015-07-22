@@ -962,7 +962,10 @@
     (bsphere).radius = (s);\
     } while(0)
 
-#define ZERO_MATRIX3 {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+#define ZERO_MATRIX3 {0, 0, 0}, {0, 0, 0}, {0, 0, 0}
+#define ZERO_MATRIX4 {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}
+#define IDENTITY_MATRIX3 {1, 0, 0}, {0, 1, 0}, {0, 0, 1}
+#define IDENTITY_MATRIX4 {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}
 
 typedef float   float2[2];
 typedef float   float3[3];

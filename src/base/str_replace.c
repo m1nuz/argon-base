@@ -33,6 +33,10 @@
 #define ABS(v) ((v) < 0 ? -(v) : (v))
 #endif
 
+#ifdef __MINGW32__
+void *memmem(const void *haystack, size_t haystack_len, const void *needle, size_t needle_len);
+#endif
+
 extern char *
 str_replace_once_fast(const char *orig, size_t orig_size, const char *rep, size_t rep_size, char *str, size_t str_size) {
     assert(orig != NULL);

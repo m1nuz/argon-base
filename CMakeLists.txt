@@ -30,6 +30,10 @@ set(lib_sources
     src/base/memory_blocks_pool.c
 )
 
+if(WIN32)
+list(APPEND lib_sources src/base/memmem.c)
+endif()
+
 include_directories("./include")
 include_directories("../lib/memtrack/include")
 add_library(${lib_name} STATIC ${lib_headers} ${lib_sources})
