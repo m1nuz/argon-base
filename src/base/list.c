@@ -189,5 +189,3 @@ slist_for_each(SLIST *list, LIST_ITERATOR_FUNC iterator_func) {
         node = node->next;
     }
 }
-
-// TODO: get more assets and valid ptr check

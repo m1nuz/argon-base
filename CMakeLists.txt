@@ -15,7 +15,8 @@ set(lib_headers
     include/base/intersection.h
     include/base/str_replace.h
     include/base/str_insert.h
-    include/base/memory_blocks_pool.h    
+    include/base/memory_blocks_pool.h
+    include/base/objects_pool.h
 )
 
 set(lib_sources
@@ -28,6 +29,7 @@ set(lib_sources
     src/base/str_replace.c
     src/base/str_insert.c
     src/base/memory_blocks_pool.c
+    src/base/objects_pool.c
 )
 
 if(WIN32)

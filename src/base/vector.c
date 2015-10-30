@@ -58,7 +58,7 @@ void vector_free(struct Vector *v) {
     assert(v != NULL);
 
     for (size_t i = 0; i < v->size; i++)
-        v->freefn(*(void **)(ELEM(v, i)));
+        v->freefn(ELEM(v, i));
 #ifndef VDBG
     free(v->elements);
 #endif
@@ -83,7 +83,7 @@ bool vector_clear(struct Vector *v) {
 
     size_t sz = v->size;
     for (size_t i = 0; i < sz; i++)
-        v->freefn(*(void **)(ELEM(v, i)));
+        v->freefn(ELEM(v, i));
 
     v->size = 0;
 

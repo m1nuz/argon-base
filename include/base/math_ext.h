@@ -43,11 +43,11 @@
 #define randf() (rand() / (float)RAND_MAX)
 #define randf_minmax(min_value, max_value) (min_value + (max_value - min_value) * randf())
 
-#define M_FLOAT_TYPE float
+#define M_BASE_FLOAT_TYPE float
 
 // TODO: rework for vec types
 // vector2
-#define make_vector2(v, x, y) (((M_FLOAT_TYPE*)&(v))[0] = (x), ((M_FLOAT_TYPE*)&(v))[1] = (y))
+#define make_vector2(v, x, y) (((M_BASE_FLOAT_TYPE*)&(v))[0] = (x), ((M_BASE_FLOAT_TYPE*)&(v))[1] = (y))
 #define copy_vector2(v, a) ((v)[0] = (a)[0], (v)[1] = (a)[1])
 // Addition, subtraction, multiplication, division (by a vector element)
 #define inc_vector2(v, a) \
@@ -87,7 +87,9 @@
 
 // vector3
 // Creation, duplication
-#define make_vector3(v, x, y, z) ((v)[0] = (x), (v)[1] = (y), (v)[2] = (z))
+#define make_vector3(v, x, y, z) (((M_BASE_FLOAT_TYPE*)&(v))[0] = (x), \
+    ((M_BASE_FLOAT_TYPE*)&(v))[1] = (y), \
+    ((M_BASE_FLOAT_TYPE*)&(v))[2] = (z))
 #define copy_vector3(v, a) ((v)[0] = (a)[0], (v)[1] = (a)[1], (v)[2] = (a)[2])
 #define swap_vector3(a, b, t) (SWAP((a)[0], (b)[0], (t)), SWAP((a)[1], (b)[1], (t)), SWAP((a)[2], (b)[2], (t)))
 // Addition, subtraction, multiplication, division (by a vector element)
@@ -366,25 +368,25 @@
     divs_matrix3(m, m, _fac);\
     } while(0)
 #define inverse2_matrix3(m, a) do {\
-    M_FLOAT_TYPE fac = 1.0 / det_matrix3(a);\
-    M_FLOAT_TYPE subfactor0[2] = {(a)[1][1], (a)[1][2]};\
-    M_FLOAT_TYPE subfactor1[2] = {(a)[2][1], (a)[2][2]};\
-    M_FLOAT_TYPE subfactor2[2] = {(a)[0][2], (a)[0][1]};\
-    M_FLOAT_TYPE subfactor3[2] = {(a)[2][2], (a)[2][1]};\
-    M_FLOAT_TYPE subfactor4[2] = {(a)[0][1], (a)[0][2]};\
-    M_FLOAT_TYPE subfactor5[2] = {(a)[1][1], (a)[1][2]};\
-    M_FLOAT_TYPE subfactor6[2] = {(a)[1][2], (a)[1][0]};\
-    M_FLOAT_TYPE subfactor7[2] = {(a)[2][2], (a)[2][0]};\
-    M_FLOAT_TYPE subfactor8[2] = {(a)[0][0], (a)[0][2]};\
-    M_FLOAT_TYPE subfactor9[2] = {(a)[2][0], (a)[2][2]};\
-    M_FLOAT_TYPE subfactor10[2] = {(a)[0][2], (a)[0][0]};\
-    M_FLOAT_TYPE subfactor11[2] = {(a)[1][2], (a)[1][0]};\
-    M_FLOAT_TYPE subfactor12[2] = {(a)[1][0], (a)[1][1]};\
-    M_FLOAT_TYPE subfactor13[2] = {(a)[2][0], (a)[2][1]};\
-    M_FLOAT_TYPE subfactor14[2] = {(a)[0][1], (a)[0][0]};\
-    M_FLOAT_TYPE subfactor15[2] = {(a)[2][0], (a)[2][1]};\
-    M_FLOAT_TYPE subfactor16[2] = {(a)[0][0], (a)[0][1]};\
-    M_FLOAT_TYPE subfactor17[2] = {(a)[1][0], (a)[1][1]};\
+    M_BASE_FLOAT_TYPE fac = 1.0 / det_matrix3(a);\
+    M_BASE_FLOAT_TYPE subfactor0[2] = {(a)[1][1], (a)[1][2]};\
+    M_BASE_FLOAT_TYPE subfactor1[2] = {(a)[2][1], (a)[2][2]};\
+    M_BASE_FLOAT_TYPE subfactor2[2] = {(a)[0][2], (a)[0][1]};\
+    M_BASE_FLOAT_TYPE subfactor3[2] = {(a)[2][2], (a)[2][1]};\
+    M_BASE_FLOAT_TYPE subfactor4[2] = {(a)[0][1], (a)[0][2]};\
+    M_BASE_FLOAT_TYPE subfactor5[2] = {(a)[1][1], (a)[1][2]};\
+    M_BASE_FLOAT_TYPE subfactor6[2] = {(a)[1][2], (a)[1][0]};\
+    M_BASE_FLOAT_TYPE subfactor7[2] = {(a)[2][2], (a)[2][0]};\
+    M_BASE_FLOAT_TYPE subfactor8[2] = {(a)[0][0], (a)[0][2]};\
+    M_BASE_FLOAT_TYPE subfactor9[2] = {(a)[2][0], (a)[2][2]};\
+    M_BASE_FLOAT_TYPE subfactor10[2] = {(a)[0][2], (a)[0][0]};\
+    M_BASE_FLOAT_TYPE subfactor11[2] = {(a)[1][2], (a)[1][0]};\
+    M_BASE_FLOAT_TYPE subfactor12[2] = {(a)[1][0], (a)[1][1]};\
+    M_BASE_FLOAT_TYPE subfactor13[2] = {(a)[2][0], (a)[2][1]};\
+    M_BASE_FLOAT_TYPE subfactor14[2] = {(a)[0][1], (a)[0][0]};\
+    M_BASE_FLOAT_TYPE subfactor15[2] = {(a)[2][0], (a)[2][1]};\
+    M_BASE_FLOAT_TYPE subfactor16[2] = {(a)[0][0], (a)[0][1]};\
+    M_BASE_FLOAT_TYPE subfactor17[2] = {(a)[1][0], (a)[1][1]};\
     (m)[0][0] = fac * delta_vector2(subfactor0, subfactor1); \
     (m)[0][1] = fac * delta_vector2(subfactor2, subfactor3); \
     (m)[0][2] = fac * delta_vector2(subfactor4, subfactor5); \
@@ -529,11 +531,11 @@
     make_vector4((m)[3], 0, 0, 0, 1))
 // Translation, rotation, scale of matrix
 #define translate_matrix4(m, v) do {\
-    matrix4 n = {{1,0,0,0},\
+    matrix4 _n = {{1,0,0,0},\
     {0,1,0,0},\
     {0,0,1,0},\
     {(v)[0],(v)[1],(v)[2],1}};\
-    multiply_matrix4(m, n);\
+    multiply_matrix4(m, _n);\
     } while(0)
 #define rotate_x_matrix4(m, a) do {\
     const float _c = cosf((a));\
@@ -979,15 +981,15 @@ typedef float3  matrix3[3];
 typedef float4  matrix4[4];
 
 typedef struct vec2 {
-    float x, y;
+    M_BASE_FLOAT_TYPE x, y;
 } vec2;
 
 typedef struct vec3 {
-    float x, y, z;
+    M_BASE_FLOAT_TYPE x, y, z;
 } vec3;
 
 typedef struct vec4 {
-    float x, y, z, w;
+    M_BASE_FLOAT_TYPE x, y, z, w;
 } vec4;
 
 typedef struct mat3 {
@@ -999,13 +1001,13 @@ typedef struct mat4 {
 } mat4;
 
 typedef struct quat {
-    float x, y, z, w;
+    M_BASE_FLOAT_TYPE x, y, z, w;
 } quat;
 
 // Rect
 typedef struct Rect {
     float x, y, width, height;
-} RECT;
+} RECTANGLE;
 
 #define make_rect(rc, _x, _y, _width, _height) ((rc).x = (_x), (rc).y = (_y), (rc).width = (_width), (rc).height = (_height))
 #define copy_rect(ra, rb) ((ra).x = (rb).x, (ra).y = (rb).y, (ra).width = (rb).width, (ra).height = (rb).height)

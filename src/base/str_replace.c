@@ -46,10 +46,14 @@ str_replace_once_fast(const char *orig, size_t orig_size, const char *rep, size_
     const size_t sz = ABS((int)orig_size - (int)rep_size);
     const size_t nbytes = str_size + sz + 1;
 
+    char *p = memmem(str, str_size, orig, orig_size);
+    if (!p) {
+        return strdup(str);
+    }
+
     char *buffer = malloc(nbytes);
     buffer[nbytes - 1] = 0;
 
-    char *p = memmem(str, str_size, orig, orig_size);
     memcpy(buffer, str, p - str);
     memcpy(buffer + (p - str), rep, rep_size);
     const size_t n = str_size - (p - str) - orig_size;
@@ -74,13 +78,22 @@ str_replace_fast(const char *orig, size_t orig_size, const char *rep, size_t rep
     const size_t sz = ABS((int)orig_size - (int)rep_size);
     const size_t nbytes = str_size + sz * count + 1;
 
-    char *buffer = malloc(nbytes);
+    char *buffer = malloc(nbytes * 2);
     buffer[nbytes - 1] = 0;
+
+    if (count == 0) {
+        memcpy(buffer, str, str_size);
+        buffer[str_size] = 0;
+    }
 
     char *q = str;
     char *d = buffer;
     while (count--) {
         char *p = strstr(q, orig);
+
+        if (!p)
+            continue;
+
         memcpy(d, q, p - q);
         memcpy(d + (p - q), rep, rep_size);
         const size_t n = str_size - (p - q) - orig_size + 1;
