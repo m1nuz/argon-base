@@ -1,7 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+
+#ifdef USE_MEMTRACK
 #include <memtrack.h>
+#endif
 
 #include "base/vector.h"
 

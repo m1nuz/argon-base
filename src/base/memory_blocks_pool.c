@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string.h>
 #ifdef USE_MEMTRACK
 #include <memtrack.h>
 #endif

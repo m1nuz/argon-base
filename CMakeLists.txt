@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+option(ARGON_BUILD_TESTS "Build test programs" ON)
 
 set(lib_name "argon-base")
 
@@ -36,10 +37,18 @@ if(WIN32)
 list(APPEND lib_sources src/base/memmem.c)
 endif()
 
+set(cflags "-std=c11 -pedantic -Wall -Wextra -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -U__STRICT_ANSI__")
+
 include_directories("./include")
 include_directories("../lib/memtrack/include")
+include_directories("../lib/minunit/include")
 add_library(${lib_name} STATIC ${lib_headers} ${lib_sources})
 add_definitions(-D_GNU_SOURCE -DUSE_MEMTRACK)
-
 target_link_libraries(${lib_name} memtrack)
-set_target_properties(${lib_name} PROPERTIES COMPILE_FLAGS "-std=c11 -pedantic -Wall -Wextra -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -U__STRICT_ANSI__")
+set_target_properties(${lib_name} PROPERTIES COMPILE_FLAGS ${cflags})
+
+if(ARGON_BUILD_TESTS)
+    add_executable(test_str_insert src/tests/test_str_insert.c)
+    target_link_libraries(test_str_insert ${lib_name})
+    set_target_properties(test_str_insert PROPERTIES COMPILE_FLAGS ${cflags})
+endif()

@@ -71,19 +71,3 @@ str_insert_fixed_fast_s(char *str, size_t str_size, const char *substr, size_t s
 
     return str;
 }
-
-/*static void str_insert_test(void) {
-    char *str = malloc(20);
-    strcpy(str, "aaacccc");
-    char *s = "bbb";
-
-    printf("str = \"%s\"\n", str);
-
-    char *new_str = str_insert(str, s, 3);
-
-    printf("str = \"%s\"\n", new_str);
-
-    free(str);
-
-    exit(0);
-}*/
